@@ -142,7 +142,8 @@ def tick(keys):
                 if final_roll is None:
                     rollingActive = True
                 else:
-                    miniGame = "ClickingRainbow"
+                    miniGameIndex = random.randint(0, len(miniGames) - 1)
+                    miniGame = miniGames[miniGameIndex]
                     currentIndex += final_roll
                     final_roll = None
                     rollingActive = False
