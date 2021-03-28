@@ -65,12 +65,26 @@ mouse1 = 0
 
 # Maze Minigame
 MazeObjects = [gamebox.from_color(0, 350, "red", 20, 700),
-               gamebox.from_color(200, 350, "red", 20, 700),
-               gamebox.from_color(400, 350, "red", 20, 700),
-               gamebox.from_color(600, 350, "red", 20, 700),
-               gamebox.from_color(800, 350, "red", 20, 700),
+               gamebox.from_color(60, 200, "red", 100, 20),
+               gamebox.from_color(200, 175, "red", 20, 350),
+               gamebox.from_color(200, 350, "red", 230, 20),
+               gamebox.from_color(97, 500, "red", 20, 300),
+               gamebox.from_color(200, 600, "red", 20, 300),
+               gamebox.from_color(303, 500, "red", 20, 300),
+               gamebox.from_color(400, 525, "red", 20, 350),
+               gamebox.from_color(500, 100, "red", 20, 350),
+               gamebox.from_color(310, 100, "red", 200, 20),
+               gamebox.from_color(310, 200, "red", 20, 190),
+               gamebox.from_color(500, 500, "red", 20, 300),
+               gamebox.from_color(600, 175, "red", 20, 350),
+               gamebox.from_color(600, 360, "red", 200, 20),
+               gamebox.from_color(700, 500, "red", 20, 300),
+               gamebox.from_color(705, 250, "red", 200, 20),
+               gamebox.from_color(850, 150, "red", 350, 20),
+               gamebox.from_color(800, 525, "red", 20, 350),
+               gamebox.from_color(900, 525, "red", 20, 350),
                gamebox.from_color(1000, 350, "red", 20, 700)]
-mazePlayer = gamebox.from_color(100, 100, "black", 30, 30)
+mazePlayer = gamebox.from_color(50, 100, "black", 30, 30)
 destination = gamebox.from_color(900, 50, "yellow", 30, 30)
 
 def displayStartScreen():
@@ -164,6 +178,9 @@ def tick(keys):
                         mouse1 = mouse1 + 1
             if CRObjects[6][2] == True:
                 miniGame = None
+                for object in CRObjects:
+                    CRObjects[object][2] = False
+                mouse1 = 0
                 keys.clear()
         if miniGame == "Maze":
             camera.clear('white')
@@ -182,12 +199,12 @@ def tick(keys):
             if mazePlayer.y < 0:
                 mazePlayer.y = 0
             if mazePlayer.y > 700:
-                mazePlayer.y = 100
+                mazePlayer.y = 700
             for wall in MazeObjects:
                 camera.draw(wall)
                 if mazePlayer.touches(wall):
                     mazePlayer.speedx = 0
-                    mazePlayer.speedy= 0
+                    mazePlayer.speedy = 0
                     mazePlayer.move_to_stop_overlapping(wall)
             camera.draw(mazePlayer)
             camera.draw(destination)
