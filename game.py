@@ -23,14 +23,14 @@ astroid_timer = 10
 astroid_tick_counter = 0
 astroid_player_speed = 15
 astroids = [
-    gamebox.from_color(0, 0, "grey", 50, 50),
-    gamebox.from_color(500, 0, "grey", 50, 50),
-    gamebox.from_color(1000, 0, "grey", 50, 50),
-    gamebox.from_color(0, 900, "grey", 50, 50),
-    gamebox.from_color(500, 900, "grey", 50, 50),
-    gamebox.from_color(1000, 900, "grey", 50, 50),
+    gamebox.from_image(0, 0, "asteroid.png"),
+    gamebox.from_image(500, 0, "asteroid.png"),
+    gamebox.from_image(1000, 0, "asteroid.png"),
+    gamebox.from_image(0, 900, "asteroid.png"),
+    gamebox.from_image(500, 900, "asteroid.png"),
+    gamebox.from_image(1000, 900, "asteroid.png"),
 ]
-astroid_player = gamebox.from_color(500, 350, "green", 50, 50)
+astroid_player = gamebox.from_image(500, 350, "astronaut2.png")
 
 
 def setAstroidSpeeds():
@@ -95,13 +95,13 @@ for i in range(18, 10, -1):
 
 # Clicking rainbow minigame
 CRDirections = gamebox.from_text(500, 50, 'Touch the boxes in the order of rainbow colors!', 40, "Black")
-CRObjects = {1: [gamebox.from_color(random.randint(50, 500), random.randint(50, 300), "red", 30, 30), 1, False],
-             2: [gamebox.from_color(random.randint(500, 950), random.randint(300, 650), "orange", 30, 30), 2, False],
-             3: [gamebox.from_color(random.randint(50, 500), random.randint(50, 300), "yellow", 30, 30), 3, False],
-             4: [gamebox.from_color(random.randint(500, 950), random.randint(300, 650), "green", 30, 30), 4, False],
-             5: [gamebox.from_color(random.randint(50, 500), random.randint(50, 300), "blue", 30, 30), 5, False],
-             6: [gamebox.from_color(random.randint(500, 950), random.randint(300, 650), "purple", 30, 30), 6, False],
-             7: [gamebox.from_color(100, 100, "black", 30, 30), "black", False]}
+CRObjects = {1: [gamebox.from_image(random.randint(50, 500), random.randint(50, 300), "redgem.png"), 1, False],
+             2: [gamebox.from_image(random.randint(500, 950), random.randint(300, 650), "orangegem.png"), 2, False],
+             3: [gamebox.from_image(random.randint(50, 500), random.randint(50, 300), "yellowgem.png"), 3, False],
+             4: [gamebox.from_image(random.randint(500, 950), random.randint(300, 650), "greengem.png"), 4, False],
+             5: [gamebox.from_image(random.randint(50, 500), random.randint(50, 300), "bluegem.png"), 5, False],
+             6: [gamebox.from_image(random.randint(500, 950), random.randint(300, 650), "purplegem.png"), 6, False],
+             7: [gamebox.from_image(100, 100, "astronaut2.png"), "black", False]}
 mouse1 = 0
 
 # Maze Minigame
@@ -125,24 +125,24 @@ MazeObjects = [gamebox.from_color(0, 350, "red", 20, 700),
                gamebox.from_color(800, 525, "red", 20, 350),
                gamebox.from_color(900, 525, "red", 20, 350),
                gamebox.from_color(1000, 350, "red", 20, 700)]
-mazePlayer = gamebox.from_color(50, 100, "black", 30, 30)
-destination = gamebox.from_color(900, 50, "yellow", 30, 30)
+mazePlayer = gamebox.from_image(50, 100, "astronaut2.png")
+destination = gamebox.from_image(900, 50, "gearwrench1.png")
 
 # Cross Street minigame
-streetObjects = {1: [gamebox.from_color(200, random.randint(50, 700), "blue", 50, 150), 10],
-                 2: [gamebox.from_color(300, random.randint(50, 700), "blue", 50, 150), 30],
-                 3: [gamebox.from_color(500, random.randint(50, 700), "blue", 50, 150), 20],
-                 4: [gamebox.from_color(600, random.randint(50, 700), "blue", 50, 150), 10],
-                 5: [gamebox.from_color(800, random.randint(50, 700), "blue", 50, 150), 40],
-                 6: [gamebox.from_color(900, random.randint(50, 700), "blue", 50, 150), 15]}
-streets = [gamebox.from_color(200, 350, "gray", 70, 700),
-           gamebox.from_color(300, 350, "gray", 70, 700),
-           gamebox.from_color(500, 350, "gray", 70, 700),
-           gamebox.from_color(600, 350, "gray", 70, 700),
-           gamebox.from_color(800, 350, "gray", 70, 700),
-           gamebox.from_color(900, 350, "gray", 70, 700),
+streetObjects = {1: [gamebox.from_image(200, random.randint(50, 700), "rocket.png"), 10],
+                 2: [gamebox.from_image(300, random.randint(50, 700), "rocket.png"), 30],
+                 3: [gamebox.from_image(500, random.randint(50, 700), "rocket.png"), 20],
+                 4: [gamebox.from_image(600, random.randint(50, 700), "rocket.png"), 10],
+                 5: [gamebox.from_image(800, random.randint(50, 700), "rocket.png"), 40],
+                 6: [gamebox.from_image(900, random.randint(50, 700), "rocket.png"), 15]}
+streets = [gamebox.from_image(200, 350, "road1.png"),
+           gamebox.from_image(300, 350, "road1.png"),
+           gamebox.from_image(500, 350, "road1.png"),
+           gamebox.from_image(600, 350, "road1.png"),
+           gamebox.from_image(800, 350, "road1.png"),
+           gamebox.from_image(900, 350, "road1.png"),
            ]
-streetPlayer = gamebox.from_color(50, 100, "black", 30, 30)
+streetPlayer = gamebox.from_image(50, 100, "astronaut2.png")
 streetPlayerHealth = 200
 streetPlayerDirections = gamebox.from_text(500, 600, 'Avoid the moving objects and cross to the other side!', 40,
                                            "Black")
@@ -229,7 +229,7 @@ def tick(keys):
                     gamePaused = True
 
         if miniGame == "ClickingRainbow":  # minigame 1
-            camera.clear('white')
+            camera.clear('grey')
             if pygame.K_w in keys:
                 CRObjects[7][0].y -= 10
             if pygame.K_s in keys:
@@ -252,7 +252,7 @@ def tick(keys):
                 mouse1 = 0
                 keys.clear()
         if miniGame == "Maze":
-            camera.clear('white')
+            camera.clear('grey')
             if pygame.K_w in keys:
                 mazePlayer.y -= 10
             if pygame.K_s in keys:
@@ -283,7 +283,7 @@ def tick(keys):
                 mazePlayer.x = 50
                 mazePlayer.y = 100
         if miniGame == "CrossStreet":
-            camera.clear('white')
+            camera.clear('grey')
             if pygame.K_w in keys:
                 streetPlayer.y -= 10
             if pygame.K_s in keys:
