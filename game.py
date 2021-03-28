@@ -10,8 +10,8 @@ import pygame
 import gamebox
 import random
 camera = gamebox.Camera(1000,700)
-miniGames = ["ClickingRainbow"]
-miniGame = "ClickingRainbow"
+miniGames = ["ClickingRainbow", "Maze"]
+miniGame = "Maze"
 gamePaused = True
 currentIndex = 0
 
@@ -49,7 +49,8 @@ for i in range(12, 0, -1):
 for i in range(18, 10, -1):
     board_space_coords.append((i, 1))
 
-
+# Clicking rainbow minigame
+CRDirections = gamebox.from_text(500, 50, 'Touch the boxes in the order of rainbow colors!', 40, "Black")
 CRObjects = {1: [gamebox.from_color(random.randint(50, 500), random.randint(50, 300), "red", 30, 30), 1, False],
              2: [gamebox.from_color(random.randint(500, 950), random.randint(300, 650), "orange", 30, 30), 2, False],
              3: [gamebox.from_color(random.randint(50, 500), random.randint(50, 300), "yellow", 30, 30), 3, False],
@@ -58,6 +59,10 @@ CRObjects = {1: [gamebox.from_color(random.randint(50, 500), random.randint(50, 
              6: [gamebox.from_color(random.randint(500, 950), random.randint(300, 650), "purple", 30, 30), 6, False],
              7: [gamebox.from_color(100, 100, "black", 30, 30), "black", False]}
 mouse1 = 0
+
+# Maze Minigame
+MazeObjects = [gamebox.from_color(600, 600, "red", 100, 100)]
+mazePlayer = gamebox.from_color(100, 100, "black", 30, 30)
 
 def displayStartScreen():
     camera.clear("white")
@@ -122,6 +127,23 @@ def tick(keys):
             if CRObjects[6][2] == True:
                 miniGame = None
                 keys.clear()
+            camera.draw(CRDirections)
+        # if miniGame == "Maze":
+        #     camera.clear('white')
+        #     if pygame.K_w in keys:
+        #         mazePlayer.y -= 10
+        #     if pygame.K_s in keys:
+        #         mazePlayer.y += 10
+        #     if pygame.K_a in keys:
+        #         mazePlayer.x -= 10
+        #     if pygame.K_d in keys:
+        #         mazePlayer.x += 10
+        #     for wall in MazeObjects:
+        #         camera.draw(wall)
+        #         if mazePlayer.touches(wall):
+        #
+        #     camera.draw(mazePlayer)
+
 
 
 
