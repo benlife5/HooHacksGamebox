@@ -9,7 +9,8 @@ Gamebox was built by Luther Tychonievich (tychonievich@virginia.edu)
 import pygame
 import gamebox
 import random
-camera = gamebox.Camera(1000,700)
+
+camera = gamebox.Camera(1000, 700)
 miniGames = ["ClickingRainbow", "Maze", "AstroidDodge", "CrossStreet"]
 miniGame = None
 gamePaused = True
@@ -39,7 +40,6 @@ def setAstroidSpeeds():
 
 
 setAstroidSpeeds()
-
 
 MPObjects = []
 
@@ -122,13 +122,16 @@ streets = [gamebox.from_color(200, 350, "gray", 70, 700),
            gamebox.from_color(500, 350, "gray", 70, 700),
            gamebox.from_color(600, 350, "gray", 70, 700),
            gamebox.from_color(800, 350, "gray", 70, 700),
-           gamebox.from_color(900, 350, "gray", 70, 700),]
+           gamebox.from_color(900, 350, "gray", 70, 700),
+           ]
 streetPlayer = gamebox.from_color(50, 100, "black", 30, 30)
 streetPlayerHealth = 200
-streetPlayerDirections = gamebox.from_text(500, 600, 'Avoid the moving objects and cross to the other side!', 40, "Black")
+streetPlayerDirections = gamebox.from_text(500, 600, 'Avoid the moving objects and cross to the other side!', 40,
+                                           "Black")
 streetPlayerHealthText = gamebox.from_text(350, 50, 'Health:', 40, "Black")
 streetPlayerHealthBar = gamebox.from_color(500, 50, "blue", streetPlayerHealth, 30)
 streetPlayerHealthBarMissing = gamebox.from_color(500, 50, "red", 200, 30)
+
 
 def displayStartScreen():
     camera.clear("white")
@@ -142,6 +145,7 @@ def drawMainBoard():
         inner_box = gamebox.from_color(coord[0] * 50 + 1, coord[1] * 50 + 1, "white", 46, 46)
         camera.draw(outer_box)
         camera.draw(inner_box)
+
 
 def tick(keys):
     global gamePaused, miniGame, currentIndex, num_of_rolls, rollingActive, final_roll, mouse1, streetPlayerHealth
@@ -299,7 +303,6 @@ def tick(keys):
             camera.draw(streetPlayerDirections)
             camera.draw(streetPlayerHealthText)
 
-
         if miniGame == "AstroidDodge":
             camera.clear("black")
             camera.draw(str(astroid_timer), 48, "red", 18 * 50, 50)
@@ -349,7 +352,6 @@ def tick(keys):
                 astroid_player.x = 500
                 astroid_player.y = 305
                 setAstroidSpeeds()
-
 
     camera.display()
 
