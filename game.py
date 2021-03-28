@@ -10,15 +10,13 @@ import pygame
 import gamebox
 import random
 camera = gamebox.Camera(1000,700)
-miniGames = ["ClickingRainbow", "Maze"]
-miniGame = None
+miniGames = ["ClickingRainbow", "Maze", "CrossStreet"]
+miniGame = "CrossStreet"
 gamePaused = True
 currentIndex = 0
 num_of_rolls = 0
 rollingActive = False
 final_roll = None
-
-MPObjects = []
 
 board_space_coords = []
 for i in range(1, 13):
@@ -87,6 +85,26 @@ MazeObjects = [gamebox.from_color(0, 350, "red", 20, 700),
 mazePlayer = gamebox.from_color(50, 100, "black", 30, 30)
 destination = gamebox.from_color(900, 50, "yellow", 30, 30)
 
+# Cross Street minigame
+streetObjects = {1: [gamebox.from_color(200, random.randint(50, 700), "blue", 50, 150), 10],
+                 2: [gamebox.from_color(300, random.randint(50, 700), "blue", 50, 150), 30],
+                 3: [gamebox.from_color(500, random.randint(50, 700), "blue", 50, 150), 20],
+                 4: [gamebox.from_color(600, random.randint(50, 700), "blue", 50, 150), 10],
+                 5: [gamebox.from_color(800, random.randint(50, 700), "blue", 50, 150), 40],
+                 6: [gamebox.from_color(900, random.randint(50, 700), "blue", 50, 150), 15]}
+streets = [gamebox.from_color(200, 350, "gray", 70, 700),
+           gamebox.from_color(300, 350, "gray", 70, 700),
+           gamebox.from_color(500, 350, "gray", 70, 700),
+           gamebox.from_color(600, 350, "gray", 70, 700),
+           gamebox.from_color(800, 350, "gray", 70, 700),
+           gamebox.from_color(900, 350, "gray", 70, 700),]
+streetPlayer = gamebox.from_color(50, 100, "black", 30, 30)
+streetPlayerHealth = 200
+streetPlayerDirections = gamebox.from_text(500, 600, 'Avoid the moving objects and cross to the other side!', 40, "Black")
+streetPlayerHealthText = gamebox.from_text(350, 50, 'Health:', 40, "Black")
+streetPlayerHealthBar = gamebox.from_color(500, 50, "blue", streetPlayerHealth, 30)
+streetPlayerHealthBarMissing = gamebox.from_color(500, 50, "red", 200, 30)
+
 def displayStartScreen():
     camera.clear("white")
     camera.draw("Project Name!", 64, "black", 500, 100)
@@ -101,7 +119,7 @@ def drawMainBoard():
         camera.draw(inner_box)
 
 def tick(keys):
-    global gamePaused, miniGame, currentIndex, num_of_rolls, rollingActive, final_roll, mouse1
+    global gamePaused, miniGame, currentIndex, num_of_rolls, rollingActive, final_roll, mouse1, streetPlayerHealth
 
     if gamePaused:
         displayStartScreen()
@@ -212,6 +230,49 @@ def tick(keys):
             if mazePlayer.touches(destination):
                 miniGame = None
                 keys.clear()
+                mazePlayer.x = 50
+                mazePlayer.y = 100
+        if miniGame == "CrossStreet":
+            camera.clear('white')
+            if pygame.K_w in keys:
+                streetPlayer.y -= 10
+            if pygame.K_s in keys:
+                streetPlayer.y += 10
+            if pygame.K_a in keys:
+                streetPlayer.x -= 10
+            if pygame.K_d in keys:
+                streetPlayer.x += 10
+            if streetPlayer.x < 0:
+                streetPlayer.x = 0
+            if streetPlayer.x > 1000:
+                streetPlayer.x = 1000
+            if streetPlayer.y < 0:
+                streetPlayer.y = 0
+            if streetPlayer.y > 700:
+                streetPlayer.y = 700
+            if streetPlayer.x > 970:
+                miniGame = None
+                keys.clear()
+                streetPlayerHealth = 200
+                streetPlayer.x = 50
+                streetPlayer.y = 100
+            for street in streets:
+                camera.draw(street)
+            for streetObject in streetObjects:
+                streetObjects[streetObject][0].speedy = streetObjects[streetObject][1]
+                streetObjects[streetObject][0].move_speed()
+                if streetObjects[streetObject][0].y > 800:
+                    streetObjects[streetObject][0].y = -100
+                camera.draw(streetObjects[streetObject][0])
+                if streetObjects[streetObject][0].touches(streetPlayer):
+                    streetPlayerHealth -= 10
+            streetPlayerHealthBar = gamebox.from_color(500, 50, "blue", streetPlayerHealth, 30)
+            camera.draw(streetPlayerHealthBarMissing)
+            camera.draw(streetPlayerHealthBar)
+            camera.draw(streetPlayer)
+            camera.draw(streetPlayerDirections)
+            camera.draw(streetPlayerHealthText)
+
 
 
 
