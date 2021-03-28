@@ -212,7 +212,7 @@ def tick(keys):
                     rollingActive = True
                 else:
                     miniGameIndex += 1
-                    if miniGameIndex > len(miniGames):
+                    if miniGameIndex >= len(miniGames):
                         miniGameIndex = 0
                         random.shuffle(miniGames)
                     miniGame = miniGames[miniGameIndex]
