@@ -286,6 +286,10 @@ def tick(keys):
                 streetPlayerHealth = 200
                 streetPlayer.x = 50
                 streetPlayer.y = 100
+            if streetPlayerHealth <= 0:
+                streetPlayer.x = 50
+                streetPlayer.y = 100
+                streetPlayerHealth = 200
             for street in streets:
                 camera.draw(street)
             for streetObject in streetObjects:
