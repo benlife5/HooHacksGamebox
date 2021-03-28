@@ -11,7 +11,7 @@ import gamebox
 import random
 camera = gamebox.Camera(1000,700)
 miniGames = ["ClickingRainbow", "Maze", "CrossStreet"]
-miniGame = "CrossStreet"
+miniGame = None
 gamePaused = True
 currentIndex = 0
 num_of_rolls = 0
