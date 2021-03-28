@@ -1,3 +1,4 @@
+import random
 """
 Boardgame with minigames! (needs a better title)
 Ben Life & Oliver Song
@@ -8,12 +9,14 @@ Gamebox was built by Luther Tychonievich (tychonievich@virginia.edu)
 
 import pygame
 import gamebox
-import random
 camera = gamebox.Camera(1000,700)
-miniGames = ["ClickingRainbow"]
-miniGame = "ClickingRainbow"
+miniGames = ["Matching Pairs"]
+miniGame = None
 gamePaused = True
 currentIndex = 0
+num_of_rolls = 0
+rollingActive = False
+final_roll = None
 
 MPObjects = []
 
@@ -50,15 +53,6 @@ for i in range(18, 10, -1):
     board_space_coords.append((i, 1))
 
 
-CRObjects = {1: [gamebox.from_color(random.randint(50, 500), random.randint(50, 300), "red", 30, 30), 1, False],
-             2: [gamebox.from_color(random.randint(500, 950), random.randint(300, 650), "orange", 30, 30), 2, False],
-             3: [gamebox.from_color(random.randint(50, 500), random.randint(50, 300), "yellow", 30, 30), 3, False],
-             4: [gamebox.from_color(random.randint(500, 950), random.randint(300, 650), "green", 30, 30), 4, False],
-             5: [gamebox.from_color(random.randint(50, 500), random.randint(50, 300), "blue", 30, 30), 5, False],
-             6: [gamebox.from_color(random.randint(500, 950), random.randint(300, 650), "purple", 30, 30), 6, False],
-             7: [gamebox.from_color(100, 100, "black", 30, 30), "black", False]}
-mouse1 = 0
-
 def displayStartScreen():
     camera.clear("white")
     camera.draw("Project Name!", 64, "black", 500, 100)
@@ -73,7 +67,8 @@ def drawMainBoard():
         camera.draw(inner_box)
 
 def tick(keys):
-    global gamePaused, miniGame, currentIndex, mouse1
+    global gamePaused, miniGame, currentIndex, num_of_rolls, rollingActive, final_roll
+
 
     if gamePaused:
         displayStartScreen()
@@ -92,34 +87,43 @@ def tick(keys):
             camera.draw(gamebox.from_image(11 * 50, 50, "gold_star.png"))
             camera.draw(gamebox.from_image(currentX * 50, currentY * 50, "red_circle.png"))
 
+            camera.draw(gamebox.from_color(12 * 50 + 25, 9 * 50 + 25, "white", 100, 100))
+            camera.draw("Click to Roll", 24, "black", 12 * 50 + 25, 11 * 50)
+
+            if rollingActive:
+
+                if num_of_rolls < 60:
+                    temp_roll = random.randint(1, 6)
+                    camera.draw(str(temp_roll), 48, "black", 12 * 50 + 25, 9 * 50 + 25)
+                    num_of_rolls += 1
+                else:
+                    final_roll = random.randint(1, 6)
+                    num_of_rolls = 0
+                    rollingActive = False
+
+            if final_roll is not None:
+                camera.draw(str(final_roll), 48, "black", 12 * 50 + 25, 9 * 50 + 25)
+
+            if camera.mouseclick:
+                rollingActive = True
+                final_roll = None
+                keys.clear()
+
             if pygame.K_RETURN in keys:
+                print("here")
                 miniGame = ""
                 keys.clear()
 
-            if camera.mouseclick:
+            if pygame.K_RIGHT in keys:
                 currentIndex += 1
                 if currentIndex >= len(board_space_coords):
                     print("Game Won!")
                     currentIndex = 0
                     gamePaused = True
-        if miniGame == "ClickingRainbow":  # minigame 1
+            
+        if miniGame == "":  # minigame 1
             camera.clear('white')
-            if pygame.K_w in keys:
-                CRObjects[7][0].y -= 10
-            if pygame.K_s in keys:
-                CRObjects[7][0].y += 10
-            if pygame.K_a in keys:
-                CRObjects[7][0].x -= 10
-            if pygame.K_d in keys:
-                CRObjects[7][0].x += 10
-            for object in CRObjects:
-                if CRObjects[object][2] == False:
-                    camera.draw(CRObjects[object][0])
-                if CRObjects[7][0].touches(CRObjects[object][0]) and object != 7:
-                    if CRObjects[object][1] == mouse1 + 1:
-                        CRObjects[object][2] = True
-                        mouse1 = mouse1 + 1
-            if CRObjects[6][2] == True:
+            if pygame.K_RETURN in keys:
                 miniGame = None
                 keys.clear()
 
