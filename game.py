@@ -106,26 +106,26 @@ CRObjects = {1: [gamebox.from_image(random.randint(50, 500), random.randint(50, 
 mouse1 = 0
 
 # Maze Minigame
-MazeObjects = [gamebox.from_color(0, 350, "red", 20, 700),
-               gamebox.from_color(60, 200, "red", 100, 20),
-               gamebox.from_color(200, 175, "red", 20, 350),
-               gamebox.from_color(200, 350, "red", 230, 20),
-               gamebox.from_color(97, 500, "red", 20, 300),
-               gamebox.from_color(200, 600, "red", 20, 300),
-               gamebox.from_color(303, 500, "red", 20, 300),
-               gamebox.from_color(400, 525, "red", 20, 350),
-               gamebox.from_color(500, 100, "red", 20, 350),
-               gamebox.from_color(310, 100, "red", 200, 20),
-               gamebox.from_color(310, 200, "red", 20, 190),
-               gamebox.from_color(500, 500, "red", 20, 300),
-               gamebox.from_color(600, 175, "red", 20, 350),
-               gamebox.from_color(600, 360, "red", 200, 20),
-               gamebox.from_color(700, 500, "red", 20, 300),
-               gamebox.from_color(705, 250, "red", 200, 20),
-               gamebox.from_color(850, 150, "red", 350, 20),
-               gamebox.from_color(800, 525, "red", 20, 350),
-               gamebox.from_color(900, 525, "red", 20, 350),
-               gamebox.from_color(1000, 350, "red", 20, 700)]
+MazeObjects = [gamebox.from_color(0, 350, "gray33", 20, 700),
+               gamebox.from_color(60, 200, "gray33", 100, 20),
+               gamebox.from_color(200, 175, "gray33", 20, 350),
+               gamebox.from_color(200, 350, "gray33", 230, 20),
+               gamebox.from_color(97, 500, "gray33", 20, 300),
+               gamebox.from_color(200, 600, "gray33", 20, 300),
+               gamebox.from_color(303, 500, "gray33", 20, 300),
+               gamebox.from_color(400, 525, "gray33", 20, 350),
+               gamebox.from_color(500, 100, "gray33", 20, 350),
+               gamebox.from_color(310, 100, "gray33", 200, 20),
+               gamebox.from_color(310, 200, "gray33", 20, 190),
+               gamebox.from_color(500, 500, "gray33", 20, 300),
+               gamebox.from_color(600, 175, "gray33", 20, 350),
+               gamebox.from_color(600, 360, "gray33", 200, 20),
+               gamebox.from_color(700, 500, "gray33", 20, 300),
+               gamebox.from_color(705, 250, "gray33", 200, 20),
+               gamebox.from_color(850, 150, "gray33", 350, 20),
+               gamebox.from_color(800, 525, "gray33", 20, 350),
+               gamebox.from_color(900, 525, "gray33", 20, 350),
+               gamebox.from_color(1000, 350, "gray33", 20, 700)]
 mazePlayer = gamebox.from_image(50, 100, "astronaut2.png")
 destination = gamebox.from_image(900, 50, "gearwrench1.png")
 
@@ -153,9 +153,8 @@ streetPlayerHealthBarMissing = gamebox.from_color(500, 50, "red", 200, 30)
 
 
 def displayStartScreen():
-    camera.clear("white")
-    camera.draw("Project Name!", 64, "black", 500, 100)
-    camera.draw("Press Enter to Begin", 48, "black", 500, 150)
+    camera.draw(gamebox.from_image(500, 350, "backgroundGame2.png"))
+    camera.draw("Press Enter to Begin", 48, "white", 500, 250)
 
 
 def drawMainBoard():
@@ -179,7 +178,7 @@ def tick(keys):
             keys.clear()
     else:
         if miniGame is None:  # main game active
-            camera.clear('grey')
+            camera.draw(gamebox.from_image(500, 350, "backgroundGame1.png"))
             drawMainBoard()
 
             currentX = board_space_coords[currentIndex][0]
@@ -193,9 +192,9 @@ def tick(keys):
 
             if final_roll is not None:
                 camera.draw(str(final_roll), 48, "black", 13 * 50, 10 * 50)
-                camera.draw("Click to Play a Minigame", 24, "black", 13 * 50, 11 * 50 + 25)
+                camera.draw("Click to Play a Minigame", 24, "white", 13 * 50, 11 * 50 + 25)
             else:
-                camera.draw("Click to Roll", 24, "black", 13 * 50, 11 * 50 + 25)
+                camera.draw("Click to Roll", 24, "white", 13 * 50, 11 * 50 + 25)
 
             if rollingActive:
                 if num_of_rolls < 60:
