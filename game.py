@@ -407,8 +407,6 @@ def tick(keys):
                         repeatGameIndex += 1
                         repeatGameShowAll, repeatGameShowMarked = True, True
                 else:
-                    # ev = pygame.event.wait()
-                    # if ev.type == pygame.MOUSEBUTTONUP:
                     if camera.mouseclick:
                         areaClicked = None
                         clickX = camera.mousex
@@ -453,34 +451,8 @@ def tick(keys):
                                     repeatGameOrder = None
                                     miniGame = None
 
-
-
-
-
-            # if repeatGameTriggerWait:
-                #     pygame.time.wait(1000)
-                #     repeatGameBoxes[0].color = "red"
-                #     repeatGameBoxes[1].color = "green"
-                #     repeatGameBoxes[2].color = "blue"
-                #     repeatGameBoxes[3].color = "purple"
-                #     if not repeatGameTriggerWait2:
-                #         repeatGameTriggerWait = False
-                #     repeatGameTriggerWait2 = False
-                #
-                # if not repeatGameUserTurn:
-                #     if repeatGameIndex < repeatGameLevel:
-                #         repeatGameBoxes[repeatGameOrder[repeatGameIndex]].color = "black"
-                #         repeatGameIndex += 1
-                #         repeatGameTriggerWait, repeatGameTriggerWait2 = True, True
-                #     else:
-                #         repeatGameUserTurn = True
-                #         repeatGameIndex = 0
-
-
             for box in repeatGameBoxes:
                 camera.draw(box)
-
-
 
     camera.display()
 
