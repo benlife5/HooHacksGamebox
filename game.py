@@ -221,10 +221,6 @@ def tick(keys):
                     rollingActive = False
                 keys.clear()
 
-            if pygame.K_RETURN in keys:
-                miniGame = "ClickingRainbow"
-                keys.clear()
-
             if pygame.K_RIGHT in keys:
                 currentIndex += 1
                 if currentIndex >= len(board_space_coords):
