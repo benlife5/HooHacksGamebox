@@ -1,3 +1,6 @@
 Sources:
 
 Gamebox pygame engine: Luther Tychonievich (tychonievich@virginia.edu)
+Gold star graphic: Yakiv Gluck - https://commons.wikimedia.org/wiki/File:Gold_Star.svg - https://creativecommons.org/licenses/by-sa/3.0/deed.en
+Green star graphic: Batreeq - https://commons.wikimedia.org/wiki/File:Solid_Bright_Green_Star_1.png - https://creativecommons.org/publicdomain/zero/1.0/deed.en
+Red Circle graphic: Twsx - https://commons.wikimedia.org/wiki/File:Circle-red.svg - Simple Geometry/Public Domain
