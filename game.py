@@ -11,7 +11,7 @@ import gamebox
 import random
 
 camera = gamebox.Camera(1000, 700)
-miniGames = ["ClickingRainbow", "Maze", "AstroidDodge", "CrossStreet"]
+miniGames = ["ClickingRainbow", "Maze", "AstroidDodge", "CrossStreet", "PatternRepeat"]
 miniGame = None
 gamePaused = True
 currentIndex = 0
@@ -40,6 +40,24 @@ def setAstroidSpeeds():
 
 
 setAstroidSpeeds()
+
+repeatGameRed = gamebox.from_color(0, 0, "forestgreen", 500, 350)
+repeatGameRed.topleft = (0, 0)
+repeatGameGreen = gamebox.from_color(500, 0, "orange", 500, 350)
+repeatGameGreen.topright = (1000, 0)
+repeatGameBlue = gamebox.from_color(0, 350, "blue", 500, 350)
+repeatGameBlue.bottomleft = (0, 700)
+repeatGamePurple = gamebox.from_color(500, 350, "purple", 500, 350)
+repeatGamePurple.bottomright = (1000, 700)
+repeatGameBoxes = [repeatGameRed, repeatGameGreen, repeatGameBlue, repeatGamePurple]
+repeatGameOrder = None
+repeatGameLevel = 0
+repeatGameIndex = 0
+repeatGameUserTurn = False
+repeatGameShowMarked = False
+repeatGameShowAll = False
+repeatGameNumUserClicks = 0
+
 
 MPObjects = []
 
@@ -150,6 +168,8 @@ def drawMainBoard():
 def tick(keys):
     global gamePaused, miniGame, currentIndex, num_of_rolls, rollingActive, final_roll, mouse1, streetPlayerHealth
     global astroid_timer, astroid_timer, astroids, astroid_tick_counter
+    global repeatGameOrder, repeatGameLevel, repeatGameUserTurn, repeatGameIndex, repeatGameShowAll
+    global repeatGameShowMarked, repeatGameNumUserClicks
 
     if gamePaused:
         displayStartScreen()
@@ -198,7 +218,7 @@ def tick(keys):
                 keys.clear()
 
             if pygame.K_RETURN in keys:
-                miniGame = "ClickingRainbow"
+                miniGame = "PatternRepeat"
                 keys.clear()
 
             if pygame.K_RIGHT in keys:
@@ -356,6 +376,111 @@ def tick(keys):
                 astroid_player.x = 500
                 astroid_player.y = 305
                 setAstroidSpeeds()
+
+        if miniGame == "PatternRepeat":
+            camera.clear("white")
+            if repeatGameOrder is None:
+                repeatGameOrder = []
+                repeatGameNumUserClicks, repeatGameIndex, repeatGameLevel = 0, 0, 0
+                for i in range(5):
+                    repeatGameOrder.append(random.randint(0, 3))
+                repeatGameShowAll, repeatGameShowMarked = True, True
+            else:
+                if repeatGameShowAll:
+                    repeatGameBoxes[0].color = "forestgreen"
+                    repeatGameBoxes[1].color = "orange"
+                    repeatGameBoxes[2].color = "blue"
+                    repeatGameBoxes[3].color = "purple"
+                    for box in repeatGameBoxes:
+                        camera.draw(box)
+                    camera.display()
+                    pygame.time.wait(1000)
+                    repeatGameShowAll = False
+                elif repeatGameShowMarked:
+                    repeatGameBoxes[repeatGameOrder[repeatGameIndex]].color = "black"
+                    for box in repeatGameBoxes:
+                        camera.draw(box)
+                    camera.display()
+                    pygame.time.wait(1000)
+                    repeatGameShowAll, repeatGameShowMarked = True, False
+                    if repeatGameIndex < repeatGameLevel:
+                        repeatGameIndex += 1
+                        repeatGameShowAll, repeatGameShowMarked = True, True
+                else:
+                    # ev = pygame.event.wait()
+                    # if ev.type == pygame.MOUSEBUTTONUP:
+                    if camera.mouseclick:
+                        areaClicked = None
+                        clickX = camera.mousex
+                        clickY = camera.mousey
+                        if clickX < 500 and clickY < 350:
+                            areaClicked = 0
+                            repeatGameBoxes[0].color = "black"
+                        elif clickX > 500 and clickY < 350:
+                            areaClicked = 1
+                            repeatGameBoxes[1].color = "black"
+                        elif clickX < 500 and clickY > 350:
+                            areaClicked = 2
+                            repeatGameBoxes[2].color = "black"
+                        elif clickX > 500 and clickY > 350:
+                            areaClicked = 3
+                            repeatGameBoxes[3].color = "black"
+
+                        for box in repeatGameBoxes:
+                            camera.draw(box)
+                        camera.display()
+                        pygame.time.wait(1000)
+                        repeatGameBoxes[0].color = "forestgreen"
+                        repeatGameBoxes[1].color = "orange"
+                        repeatGameBoxes[2].color = "blue"
+                        repeatGameBoxes[3].color = "purple"
+                        for box in repeatGameBoxes:
+                            camera.draw(box)
+                        camera.display()
+
+                        if areaClicked != repeatGameOrder[repeatGameNumUserClicks]:
+                            camera.clear("red")
+                            camera.display()
+                            pygame.time.wait(400)
+                            repeatGameOrder = None
+                        else:
+                            repeatGameNumUserClicks += 1
+                            if repeatGameNumUserClicks > repeatGameLevel:
+                                repeatGameShowAll, repeatGameShowMarked = True, True
+                                repeatGameLevel += 1
+                                repeatGameNumUserClicks, repeatGameIndex = 0, 0
+                                if repeatGameLevel >= 5:
+                                    repeatGameOrder = None
+                                    miniGame = None
+
+
+
+
+
+            # if repeatGameTriggerWait:
+                #     pygame.time.wait(1000)
+                #     repeatGameBoxes[0].color = "red"
+                #     repeatGameBoxes[1].color = "green"
+                #     repeatGameBoxes[2].color = "blue"
+                #     repeatGameBoxes[3].color = "purple"
+                #     if not repeatGameTriggerWait2:
+                #         repeatGameTriggerWait = False
+                #     repeatGameTriggerWait2 = False
+                #
+                # if not repeatGameUserTurn:
+                #     if repeatGameIndex < repeatGameLevel:
+                #         repeatGameBoxes[repeatGameOrder[repeatGameIndex]].color = "black"
+                #         repeatGameIndex += 1
+                #         repeatGameTriggerWait, repeatGameTriggerWait2 = True, True
+                #     else:
+                #         repeatGameUserTurn = True
+                #         repeatGameIndex = 0
+
+
+            for box in repeatGameBoxes:
+                camera.draw(box)
+
+
 
     camera.display()
 
