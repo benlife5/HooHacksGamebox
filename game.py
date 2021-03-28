@@ -11,7 +11,7 @@ import gamebox
 import random
 camera = gamebox.Camera(1000,700)
 miniGames = ["ClickingRainbow", "Maze"]
-miniGame = "ClickingRainbow"
+miniGame = None
 gamePaused = True
 currentIndex = 0
 num_of_rolls = 0
@@ -87,8 +87,7 @@ def drawMainBoard():
         camera.draw(inner_box)
 
 def tick(keys):
-    global gamePaused, miniGame, currentIndex, num_of_rolls, rollingActive, final_roll
-
+    global gamePaused, miniGame, currentIndex, num_of_rolls, rollingActive, final_roll, mouse1
 
     if gamePaused:
         displayStartScreen()
@@ -108,10 +107,14 @@ def tick(keys):
             camera.draw(gamebox.from_image(currentX * 50, currentY * 50, "red_circle.png"))
 
             camera.draw(gamebox.from_color(12 * 50 + 25, 9 * 50 + 25, "white", 100, 100))
-            camera.draw("Click to Roll", 24, "black", 12 * 50 + 25, 11 * 50)
+
+            if final_roll is not None:
+                camera.draw(str(final_roll), 48, "black", 12 * 50 + 25, 9 * 50 + 25)
+                camera.draw("Click to Play a Minigame", 24, "black", 12 * 50 + 25, 11 * 50)
+            else:
+                camera.draw("Click to Roll", 24, "black", 12 * 50 + 25, 11 * 50)
 
             if rollingActive:
-
                 if num_of_rolls < 60:
                     temp_roll = random.randint(1, 6)
                     camera.draw(str(temp_roll), 48, "black", 12 * 50 + 25, 9 * 50 + 25)
@@ -121,16 +124,18 @@ def tick(keys):
                     num_of_rolls = 0
                     rollingActive = False
 
-            if final_roll is not None:
-                camera.draw(str(final_roll), 48, "black", 12 * 50 + 25, 9 * 50 + 25)
-
             if camera.mouseclick:
-                rollingActive = True
-                final_roll = None
+                if final_roll is None:
+                    rollingActive = True
+                else:
+                    miniGame = "ClickingRainbow"
+                    currentIndex += final_roll
+                    final_roll = None
+                    rollingActive = False
                 keys.clear()
 
             if pygame.K_RETURN in keys:
-                miniGame = ""
+                miniGame = "ClickingRainbow"
                 keys.clear()
 
             if pygame.K_RIGHT in keys:
@@ -140,7 +145,7 @@ def tick(keys):
                     currentIndex = 0
                     gamePaused = True
 
-        if miniGame == "":  # minigame 1
+        if miniGame == "ClickingRainbow":  # minigame 1
             camera.clear('white')
             if pygame.K_w in keys:
                 CRObjects[7][0].y -= 10
@@ -160,7 +165,6 @@ def tick(keys):
             if CRObjects[6][2] == True:
                 miniGame = None
                 keys.clear()
-            camera.draw(CRDirections)
         if miniGame == "Maze":
             camera.clear('white')
             if pygame.K_w in keys:
