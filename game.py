@@ -12,6 +12,7 @@ camera = gamebox.Camera(1000,700)
 miniGames = ["Matching Pairs"]
 miniGame = None
 gamePaused = True
+currentIndex = 0
 
 MPObjects = []
 
@@ -62,20 +63,35 @@ def drawMainBoard():
         camera.draw(inner_box)
 
 def tick(keys):
-    global gamePaused, miniGame
+    global gamePaused, miniGame, currentIndex
 
     if gamePaused:
         displayStartScreen()
         if pygame.K_RETURN in keys:
             gamePaused = False
+            keys.clear()
     else:
-
-        if miniGame == None:  # main game active
+        if miniGame is None:  # main game active
             camera.clear('grey')
             drawMainBoard()
+
+            currentX = board_space_coords[currentIndex][0]
+            currentY = board_space_coords[currentIndex][1]
+
+            camera.draw(gamebox.from_image(50, 50, "green_star.png"))
+            camera.draw(gamebox.from_image(11 * 50, 50, "gold_star.png"))
+            camera.draw(gamebox.from_image(currentX * 50, currentY * 50, "red_circle.png"))
+
             if pygame.K_RETURN in keys:
                 miniGame = ""
                 keys.clear()
+
+            if camera.mouseclick:
+                currentIndex += 1
+                if currentIndex >= len(board_space_coords):
+                    print("Game Won!")
+                    currentIndex = 0
+                    gamePaused = True
         if miniGame == "":  # minigame 1
             camera.clear('white')
             if pygame.K_RETURN in keys:
