@@ -18,6 +18,7 @@ currentIndex = 0
 num_of_rolls = 0
 rollingActive = False
 final_roll = None
+miniGameIndex = 0
 
 astroid_timer = 10
 astroid_tick_counter = 0
@@ -159,8 +160,8 @@ def displayStartScreen():
 
 def drawMainBoard():
     for coord in board_space_coords:
-        outer_box = gamebox.from_color(coord[0] * 50, coord[1] * 50, "black", 50, 50)
-        inner_box = gamebox.from_color(coord[0] * 50 + 1, coord[1] * 50 + 1, "white", 46, 46)
+        outer_box = gamebox.from_color(coord[0] * 50 + 25, coord[1] * 50 + 25, "black", 50, 50)
+        inner_box = gamebox.from_color(coord[0] * 50 + 26, coord[1] * 50 + 26, "white", 46, 46)
         camera.draw(outer_box)
         camera.draw(inner_box)
 
@@ -169,7 +170,7 @@ def tick(keys):
     global gamePaused, miniGame, currentIndex, num_of_rolls, rollingActive, final_roll, mouse1, streetPlayerHealth
     global astroid_timer, astroid_timer, astroids, astroid_tick_counter
     global repeatGameOrder, repeatGameLevel, repeatGameUserTurn, repeatGameIndex, repeatGameShowAll
-    global repeatGameShowMarked, repeatGameNumUserClicks
+    global repeatGameShowMarked, repeatGameNumUserClicks, miniGameIndex
 
     if gamePaused:
         displayStartScreen()
@@ -184,22 +185,22 @@ def tick(keys):
             currentX = board_space_coords[currentIndex][0]
             currentY = board_space_coords[currentIndex][1]
 
-            camera.draw(gamebox.from_image(50, 50, "green_star.png"))
-            camera.draw(gamebox.from_image(11 * 50, 50, "gold_star.png"))
-            camera.draw(gamebox.from_image(currentX * 50, currentY * 50, "red_circle.png"))
+            camera.draw(gamebox.from_image(75, 75, "green_star.png"))
+            camera.draw(gamebox.from_image(11 * 50 + 25, 75, "gold_star.png"))
+            camera.draw(gamebox.from_image(currentX * 50 + 25, currentY * 50 + 25, "red_circle.png"))
 
-            camera.draw(gamebox.from_color(12 * 50 + 25, 9 * 50 + 25, "white", 100, 100))
+            camera.draw(gamebox.from_color(13 * 50, 10 * 50, "white", 100, 100))
 
             if final_roll is not None:
-                camera.draw(str(final_roll), 48, "black", 12 * 50 + 25, 9 * 50 + 25)
-                camera.draw("Click to Play a Minigame", 24, "black", 12 * 50 + 25, 11 * 50)
+                camera.draw(str(final_roll), 48, "black", 13 * 50, 10 * 50)
+                camera.draw("Click to Play a Minigame", 24, "black", 13 * 50, 11 * 50 + 25)
             else:
-                camera.draw("Click to Roll", 24, "black", 12 * 50 + 25, 11 * 50)
+                camera.draw("Click to Roll", 24, "black", 13 * 50, 11 * 50 + 25)
 
             if rollingActive:
                 if num_of_rolls < 60:
                     temp_roll = random.randint(1, 6)
-                    camera.draw(str(temp_roll), 48, "black", 12 * 50 + 25, 9 * 50 + 25)
+                    camera.draw(str(temp_roll), 48, "black", 13 * 50, 10 * 50)
                     num_of_rolls += 1
                 else:
                     final_roll = random.randint(1, 6)
@@ -210,7 +211,10 @@ def tick(keys):
                 if final_roll is None:
                     rollingActive = True
                 else:
-                    miniGameIndex = random.randint(0, len(miniGames) - 1)
+                    # miniGameIndex = random.randint(0, len(miniGames) - 1)
+                    miniGameIndex += 1
+                    if miniGameIndex >= len(miniGames):
+                        miniGameIndex = 0
                     miniGame = miniGames[miniGameIndex]
                     currentIndex += final_roll
                     final_roll = None
