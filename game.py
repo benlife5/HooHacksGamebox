@@ -11,7 +11,7 @@ import gamebox
 import random
 camera = gamebox.Camera(1000,700)
 miniGames = ["ClickingRainbow", "Maze"]
-miniGame = "Maze"
+miniGame = "ClickingRainbow"
 gamePaused = True
 currentIndex = 0
 
@@ -61,8 +61,14 @@ CRObjects = {1: [gamebox.from_color(random.randint(50, 500), random.randint(50, 
 mouse1 = 0
 
 # Maze Minigame
-MazeObjects = [gamebox.from_color(600, 600, "red", 100, 100)]
+MazeObjects = [gamebox.from_color(0, 350, "red", 20, 700),
+               gamebox.from_color(200, 350, "red", 20, 700),
+               gamebox.from_color(400, 350, "red", 20, 700),
+               gamebox.from_color(600, 350, "red", 20, 700),
+               gamebox.from_color(800, 350, "red", 20, 700),
+               gamebox.from_color(1000, 350, "red", 20, 700)]
 mazePlayer = gamebox.from_color(100, 100, "black", 30, 30)
+destination = gamebox.from_color(900, 50, "yellow", 30, 30)
 
 def displayStartScreen():
     camera.clear("white")
@@ -128,21 +134,35 @@ def tick(keys):
                 miniGame = None
                 keys.clear()
             camera.draw(CRDirections)
-        # if miniGame == "Maze":
-        #     camera.clear('white')
-        #     if pygame.K_w in keys:
-        #         mazePlayer.y -= 10
-        #     if pygame.K_s in keys:
-        #         mazePlayer.y += 10
-        #     if pygame.K_a in keys:
-        #         mazePlayer.x -= 10
-        #     if pygame.K_d in keys:
-        #         mazePlayer.x += 10
-        #     for wall in MazeObjects:
-        #         camera.draw(wall)
-        #         if mazePlayer.touches(wall):
-        #
-        #     camera.draw(mazePlayer)
+        if miniGame == "Maze":
+            camera.clear('white')
+            if pygame.K_w in keys:
+                mazePlayer.y -= 10
+            if pygame.K_s in keys:
+                mazePlayer.y += 10
+            if pygame.K_a in keys:
+                mazePlayer.x -= 10
+            if pygame.K_d in keys:
+                mazePlayer.x += 10
+            if mazePlayer.x < 0:
+                mazePlayer.x = 0
+            if mazePlayer.x > 1000:
+                mazePlayer.x = 1000
+            if mazePlayer.y < 0:
+                mazePlayer.y = 0
+            if mazePlayer.y > 700:
+                mazePlayer.y = 100
+            for wall in MazeObjects:
+                camera.draw(wall)
+                if mazePlayer.touches(wall):
+                    mazePlayer.speedx = 0
+                    mazePlayer.speedy= 0
+                    mazePlayer.move_to_stop_overlapping(wall)
+            camera.draw(mazePlayer)
+            camera.draw(destination)
+            if mazePlayer.touches(destination):
+                miniGame = None
+                keys.clear()
 
 
 
