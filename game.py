@@ -10,8 +10,8 @@ Gamebox was built by Luther Tychonievich (tychonievich@virginia.edu)
 import pygame
 import gamebox
 camera = gamebox.Camera(1000,700)
-miniGames = ["Matching Pairs"]
-miniGame = None
+miniGames = ["ClickingRainbow"]
+miniGame = "ClickingRainbow"
 gamePaused = True
 currentIndex = 0
 num_of_rolls = 0
@@ -52,6 +52,15 @@ for i in range(12, 0, -1):
 for i in range(18, 10, -1):
     board_space_coords.append((i, 1))
 
+
+CRObjects = {1: [gamebox.from_color(random.randint(50, 500), random.randint(50, 300), "red", 30, 30), 1, False],
+             2: [gamebox.from_color(random.randint(500, 950), random.randint(300, 650), "orange", 30, 30), 2, False],
+             3: [gamebox.from_color(random.randint(50, 500), random.randint(50, 300), "yellow", 30, 30), 3, False],
+             4: [gamebox.from_color(random.randint(500, 950), random.randint(300, 650), "green", 30, 30), 4, False],
+             5: [gamebox.from_color(random.randint(50, 500), random.randint(50, 300), "blue", 30, 30), 5, False],
+             6: [gamebox.from_color(random.randint(500, 950), random.randint(300, 650), "purple", 30, 30), 6, False],
+             7: [gamebox.from_color(100, 100, "black", 30, 30), "black", False]}
+mouse1 = 0
 
 def displayStartScreen():
     camera.clear("white")
@@ -120,12 +129,29 @@ def tick(keys):
                     print("Game Won!")
                     currentIndex = 0
                     gamePaused = True
-            
+
         if miniGame == "":  # minigame 1
             camera.clear('white')
             if pygame.K_RETURN in keys:
                 miniGame = None
                 keys.clear()
+            camera.draw(CRDirections)
+        # if miniGame == "Maze":
+        #     camera.clear('white')
+        #     if pygame.K_w in keys:
+        #         mazePlayer.y -= 10
+        #     if pygame.K_s in keys:
+        #         mazePlayer.y += 10
+        #     if pygame.K_a in keys:
+        #         mazePlayer.x -= 10
+        #     if pygame.K_d in keys:
+        #         mazePlayer.x += 10
+        #     for wall in MazeObjects:
+        #         camera.draw(wall)
+        #         if mazePlayer.touches(wall):
+        #
+        #     camera.draw(mazePlayer)
+
 
 
 
