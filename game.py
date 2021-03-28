@@ -116,7 +116,6 @@ def tick(keys):
                 if CRObjects[object][2] == False:
                     camera.draw(CRObjects[object][0])
                 if CRObjects[7][0].touches(CRObjects[object][0]) and object != 7:
-                    print("hi")
                     if CRObjects[object][1] == mouse1 + 1:
                         CRObjects[object][2] = True
                         mouse1 = mouse1 + 1
