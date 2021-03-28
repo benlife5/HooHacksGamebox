@@ -12,6 +12,7 @@ import random
 
 camera = gamebox.Camera(1000, 700)
 miniGames = ["ClickingRainbow", "Maze", "AstroidDodge", "CrossStreet", "PatternRepeat"]
+random.shuffle(miniGames)
 miniGame = None
 gamePaused = True
 currentIndex = 0
@@ -210,10 +211,10 @@ def tick(keys):
                 if final_roll is None:
                     rollingActive = True
                 else:
-                    # miniGameIndex = random.randint(0, len(miniGames) - 1)
                     miniGameIndex += 1
-                    if miniGameIndex >= len(miniGames):
+                    if miniGameIndex > len(miniGames):
                         miniGameIndex = 0
+                        random.shuffle(miniGames)
                     miniGame = miniGames[miniGameIndex]
                     currentIndex += final_roll
                     final_roll = None
@@ -221,7 +222,7 @@ def tick(keys):
                 keys.clear()
 
             if pygame.K_RETURN in keys:
-                miniGame = "PatternRepeat"
+                miniGame = "ClickingRainbow"
                 keys.clear()
 
             if pygame.K_RIGHT in keys:
@@ -233,6 +234,7 @@ def tick(keys):
 
         if miniGame == "ClickingRainbow":  # minigame 1
             camera.clear('grey')
+            camera.draw(CRDirections)
             if pygame.K_w in keys:
                 CRObjects[7][0].y -= 10
             if pygame.K_s in keys:
