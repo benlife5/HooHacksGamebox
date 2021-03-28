@@ -10,13 +10,36 @@ import pygame
 import gamebox
 import random
 camera = gamebox.Camera(1000,700)
-miniGames = ["ClickingRainbow", "Maze"]
+miniGames = ["ClickingRainbow", "Maze", "AstroidDodge"]
 miniGame = None
 gamePaused = True
 currentIndex = 0
 num_of_rolls = 0
 rollingActive = False
 final_roll = None
+
+astroid_timer = 10
+astroid_tick_counter = 0
+astroid_player_speed = 15
+astroids = [
+    gamebox.from_color(0, 0, "grey", 50, 50),
+    gamebox.from_color(500, 0, "grey", 50, 50),
+    gamebox.from_color(1000, 0, "grey", 50, 50),
+    gamebox.from_color(0, 900, "grey", 50, 50),
+    gamebox.from_color(500, 900, "grey", 50, 50),
+    gamebox.from_color(1000, 900, "grey", 50, 50),
+]
+astroid_player = gamebox.from_color(500, 350, "green", 50, 50)
+
+
+def setAstroidSpeeds():
+    for astroid in astroids:
+        astroid.speedx = random.choice([random.randint(-20, -5), random.randint(5, 20)])
+        astroid.speedy = random.randint(-20, 20)
+
+
+setAstroidSpeeds()
+
 
 MPObjects = []
 
@@ -102,6 +125,7 @@ def drawMainBoard():
 
 def tick(keys):
     global gamePaused, miniGame, currentIndex, num_of_rolls, rollingActive, final_roll, mouse1
+    global astroid_timer, astroid_timer, astroids, astroid_tick_counter
 
     if gamePaused:
         displayStartScreen()
@@ -213,7 +237,55 @@ def tick(keys):
                 miniGame = None
                 keys.clear()
 
+        if miniGame == "AstroidDodge":
+            camera.clear("black")
+            camera.draw(str(astroid_timer), 48, "red", 18 * 50, 50)
+            astroid_tick_counter += 1
 
+            if pygame.K_w in keys:
+                astroid_player.y -= astroid_player_speed
+            elif pygame.K_s in keys:
+                astroid_player.y += astroid_player_speed
+            elif pygame.K_a in keys:
+                astroid_player.x -= astroid_player_speed
+            elif pygame.K_d in keys:
+                astroid_player.x += astroid_player_speed
+
+            if astroid_player.x < 0:
+                astroid_player.x = 0
+            elif astroid_player.x > 1000:
+                astroid_player.x = 1000
+            elif astroid_player.y < 0:
+                astroid_player.y = 0
+            elif astroid_player.y > 700:
+                astroid_player.y = 700
+            camera.draw(astroid_player)
+            for astroid in astroids:
+                astroid.move_speed()
+                if astroid.x < 0:
+                    astroid.x += 1050
+                elif astroid.x > 1050:
+                    astroid.x -= 1050
+                if astroid.y < 0:
+                    astroid.y += 950
+                elif astroid.y > 950:
+                    astroid.y -= 950
+                camera.draw(astroid)
+                if astroid_player.touches(astroid):
+                    astroid_timer = 10
+                    camera.clear("red")
+                    astroid_player.x = 500
+                    astroid_player.y = 305
+
+            if astroid_tick_counter % 28 == 0:
+                astroid_timer -= 1
+
+            if astroid_timer <= 0:
+                miniGame = None
+                astroid_timer = 10
+                astroid_player.x = 500
+                astroid_player.y = 305
+                setAstroidSpeeds()
 
 
     camera.display()
