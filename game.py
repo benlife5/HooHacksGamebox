@@ -460,5 +460,8 @@ def tick(keys):
     camera.display()
 
 
+pygame.display.set_caption("Space Race!")
+icon = logo = pygame.image.load("astronaut2.png")
+pygame.display.set_icon(logo)
 ticks = 30
 gamebox.timer_loop(ticks, tick)
